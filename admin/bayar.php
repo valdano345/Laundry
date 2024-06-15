@@ -2,14 +2,14 @@
 $title = 'Pembayaran';
 require 'koneksi.php';
 
-$query = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id']);
+$query = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_bayar FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.id_transaksi = " . $_GET['id']);
 $data = mysqli_fetch_assoc($query);
 
 if (isset($_POST['btn-simpan'])) {
     $total_bayar = $_POST['total_bayar'];
-    if ($total_bayar >= $data['total_harga']) {
+    if ($total_bayar >= $data['total_bayar']) {
         $query = "UPDATE transaksi SET status_bayar = 'dibayar', tgl_pembayaran = '" . date('Y-m-d h:i:s') . "' WHERE id_transaksi = " . $_GET['id'];
-        $query2 = "UPDATE detail_transaksi SET total_bayar = '$total_bayar' WHERE id_transaksi = " . $_GET['id'];
+        $query2 = "UPDATE detail_transaksi SET total_dibayar = '$total_bayar' WHERE id_transaksi = " . $_GET['id'];
 
         $insert = mysqli_query($conn, $query);
         $insert2 = mysqli_query($conn, $query2);
@@ -81,7 +81,7 @@ require 'header.php';
                             </div>
                             <div class="form-group">
                                 <label for="largeInput">Total Yang Harus Dibayarkan</label>
-                                <input type="text" name="total_harga" class="form-control form-control" id="defaultInput" value="<?= 'Rp ' . number_format($data['total_harga']); ?>" readonly>
+                                <input type="text" name="total_bayar" class="form-control form-control" id="defaultInput" value="<?= 'Rp ' . number_format($data['total_bayar']); ?>" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="largeInput">Masukan Jumlah Pembayaran</label>

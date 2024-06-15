@@ -2,7 +2,7 @@
 $title = 'Data Laporan';
 require 'koneksi.php';
 
-$query = "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga, outlet.nama_outlet FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi INNER JOIN outlet ON outlet.id_outlet = transaksi.outlet_id";
+$query = "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_bayar, outlet.nama_outlet FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi INNER JOIN outlet ON outlet.id_outlet = transaksi.outlet_id";
 $data = mysqli_query($conn, $query);
 
 require 'header.php';
@@ -64,7 +64,7 @@ require 'header.php';
                                             <td><?= $trans['nama_pelanggan']; ?></td>
                                             <td><?= $trans['status']; ?></td>
                                             <td><?= $trans['status_bayar']; ?></td>
-                                            <td><?= 'Rp ' . number_format($trans['total_harga']); ?></td>
+                                            <td><?= 'Rp ' . number_format($trans['total_bayar']); ?></td>
                                             <td><?= $trans['nama_outlet']; ?></td>
                                         </tr>
                                 <?php }

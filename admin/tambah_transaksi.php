@@ -1,7 +1,7 @@
 <?php
 $title = 'Tambah Transaksi';
 require 'koneksi.php';
-
+date_default_timezone_set('Asia/Jakarta');
 $tgl = date('Y-m-d h:i:s');
 $seminggu = mktime(0, 0, 0, date("n"), date("j") + 7, date("Y"));
 $batas_waktu = date("Y-m-d h:i:s", $seminggu);
@@ -10,6 +10,7 @@ $kode = "CLN" . date('Ymdsi');
 $id_outlet = $_SESSION['outlet_id'];
 $id_user = $_SESSION['user_id'];
 $id_pelanggan = $_GET['id'];
+
 
 $query = "SELECT nama_outlet FROM outlet WHERE id_outlet = '$id_outlet'";
 $data = mysqli_query($conn, $query);
@@ -22,33 +23,37 @@ $pelanggan = mysqli_fetch_assoc($data2);
 $query3 = "SELECT * FROM paket_cuci WHERE outlet_id = '$id_outlet'";
 $paket = mysqli_query($conn, $query3);
 
-if (isset($_POST['btn-simpan'])) {
+if (isset($_POST['btn-simpan'])) {    
     $kode_invoice = $_POST['kode_invoice'];
     $biaya_tambah = $_POST['biaya_tambahan'];
-    $diskon = $_POST['diskon']; 
+    $id_pelanggan = $_POST['id_pelanggan'];
+    $diskon = $_POST['diskon'];
     $pajak = $_POST['pajak'];
 
     $query4 = "INSERT INTO transaksi (outlet_id, kode_invoice, id_pelanggan, tgl, batas_waktu, biaya_tambahan, diskon, pajak, status, status_bayar, id_user) VALUES ('$id_outlet', '$kode_invoice', '$id_pelanggan', '$tgl', '$batas_waktu', '$biaya_tambah', '$diskon', '$pajak', 'baru', 'belum', '$id_user')";
-    $insert = mysqli_query($conn, $query4);
-    if ($insert == 1) {
+    $insert = mysqli_query($conn, $query4);    
+
+    if ($insert == 1) {        
         $id_paket = $_POST['id_paket'];
         $qty = $_POST['qty'];
         $query5 = mysqli_query($conn, "SELECT * FROM paket_cuci WHERE id_paket = $id_paket");
         $paket_harga = mysqli_fetch_assoc($query5);
+        $harga = $paket_harga['harga'];
         $total = $paket_harga['harga'] * $qty;
         $kode_invoice;
         $query6 = mysqli_query($conn, "SELECT * FROM transaksi WHERE kode_invoice = '" . $kode_invoice . "'");
         $transaksi = mysqli_fetch_assoc($query6);
         $id_transaksi = $transaksi['id_transaksi'];
 
-        $query_detail = "INSERT INTO detail_transaksi (id_transaksi, id_paket, qty, total_harga) VALUES ('$id_transaksi', '$id_paket', '$qty', '$total')";
+        $query_detail = "INSERT INTO detail_transaksi (id_transaksi, id_paket, qty, total_harga,total_bayar) VALUES ('$id_transaksi', '$id_paket', '$qty','$harga', '$total')";
         $insert_detail = mysqli_query($conn, $query_detail);
+        
         if ($insert_detail == 1) {
-            // $_SESSION['msg'] = 'Berhasil menambahkan ';
+            $_SESSION['msg'] = 'Berhasil menambahkan ';
             header('location:transaksi_sukses.php?id=' . $id_transaksi);
         } else {
-            $_SESSION['msg'] = "<div class='alert alert-danger'>Gagal transaksi!!!</div>";
-            header('location:tambah_transaksi.php?id=' . $id_pelanggan);
+            $_SESSION['msg'] = "<div class='alert alert-danger'>Gagal transaksi!!!</div>";            
+            header('location:tambah_transaksi.php');
         }
     }
 }
@@ -91,7 +96,8 @@ require 'header.php';
                     <div class="card-header">
                         <div class="card-title"><?= $title; ?></div>
                     </div>
-                    <form action="/laundryy/admin/tambah_transaksi.php?id=<?= $id_pelanggan ?>" method="POST">
+                    <form action="" method="POST">
+                        <input type="hidden" name="id_pelanggan" value="<?= $id_pelanggan?>">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="largeInput">Kode Invoice</label>

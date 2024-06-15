@@ -2,7 +2,7 @@
 $title = 'Konfirmasi Pembayaran';
 require 'koneksi.php';
 
-$data = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.status_bayar = 'belum'");
+$data = mysqli_query($conn, "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_bayar FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi WHERE transaksi.status_bayar = 'belum'");
 
 require 'header.php';
 ?>
@@ -57,7 +57,7 @@ require 'header.php';
                                             <td><?= $trans['kode_invoice']; ?></td>
                                             <td><?= $trans['nama_pelanggan']; ?></td>
                                             <td><?= $trans['status']; ?></td>
-                                            <td><?= 'Rp ' . number_format($trans['total_harga']); ?></td>
+                                            <td><?= 'Rp ' . number_format($trans['total_bayar']); ?></td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <a href="bayar.php?id=<?= $trans['id_transaksi']; ?>" type="button" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Detail">

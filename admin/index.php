@@ -122,7 +122,7 @@ $penghasilan_minggu = mysqli_fetch_assoc($query7);
         <div class="col-lg-4 col-sm-6 col-xs-12">
             <div class="card card-secondary">
                 <div class="card-body skew-shadow">
-                    <h1><?= 'Rp ' . number_format($penghasilan_tahun['penghasilan_tahun']); ?></h1>
+                    <h1><?= 'Rp ' . number_format($penghasilan_tahun['penghasilan_tahun'] ?? 0); ?></h1>
                     <h5 class="op-8">Penghasilan Tahun <?= date('Y'); ?></h5>
                     <div class="pull-right">
                         <h3 class="fw-bold op-8">

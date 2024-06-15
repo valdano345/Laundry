@@ -2,7 +2,7 @@
 $title = 'Data Transaksi';
 require 'koneksi.php';
 
-$query = "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_harga FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi";
+$query = "SELECT transaksi.*, pelanggan.nama_pelanggan, detail_transaksi.total_bayar FROM transaksi INNER JOIN pelanggan ON pelanggan.id_pelanggan = transaksi.id_pelanggan INNER JOIN detail_transaksi ON detail_transaksi.id_transaksi = transaksi.id_transaksi";
 $data = mysqli_query($conn, $query);
 
 require 'header.php';
@@ -65,7 +65,7 @@ require 'header.php';
                                             <td><?= $trans['nama_pelanggan']; ?></td>
                                             <td><?= $trans['status']; ?></td>
                                             <td><?= $trans['status_bayar']; ?></td>
-                                            <td><?= 'Rp ' . number_format($trans['total_harga']); ?></td>
+                                            <td><?= 'Rp ' . number_format($trans['total_bayar']); ?></td>
                                             <td>
                                                 <div class="form-button-action">
                                                     <a href="detail.php?id=<?= $trans['id_transaksi']; ?>" type="button" data-toggle="tooltip" title="" class="btn btn-primary" data-original-title="Detail">
