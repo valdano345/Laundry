@@ -15,16 +15,16 @@ $jumlah_pelanggan = mysqli_fetch_assoc($query2);
 $query3 = mysqli_query($conn, "SELECT COUNT(id_outlet) as jumlah_outlet FROM outlet");
 $jumlah_outlet = mysqli_fetch_assoc($query3);
 
-$query4 = mysqli_query($conn, "SELECT SUM(total_harga) as total_penghasilan FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar'");
+$query4 = mysqli_query($conn, "SELECT SUM(total_bayar) as total_penghasilan FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar'");
 $total_penghasilan = mysqli_fetch_assoc($query4);
 
-$query5 = mysqli_query($conn, "SELECT SUM(total_harga) as penghasilan_tahun FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND YEAR(tgl_pembayaran) = YEAR(NOW())");
+$query5 = mysqli_query($conn, "SELECT SUM(total_bayar) as penghasilan_tahun FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND YEAR(tgl_pembayaran) = YEAR(NOW())");
 $penghasilan_tahun = mysqli_fetch_assoc($query5);
 
-$query6 = mysqli_query($conn, "SELECT SUM(total_harga) as penghasilan_bulan FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND MONTH(tgl_pembayaran) = MONTH(NOW())");
+$query6 = mysqli_query($conn, "SELECT SUM(total_bayar) as penghasilan_bulan FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND MONTH(tgl_pembayaran) = MONTH(NOW())");
 $penghasilan_bulan = mysqli_fetch_assoc($query6);
 
-$query7 = mysqli_query($conn, "SELECT SUM(total_harga) as penghasilan_minggu FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND WEEK(tgl_pembayaran) = WEEK(NOW())");
+$query7 = mysqli_query($conn, "SELECT SUM(total_bayar) as penghasilan_minggu FROM detail_transaksi INNER JOIN transaksi ON transaksi.id_transaksi = detail_transaksi.id_transaksi WHERE status_bayar = 'dibayar' AND WEEK(tgl_pembayaran) = WEEK(NOW())");
 $penghasilan_minggu = mysqli_fetch_assoc($query7);
 ?>
 
